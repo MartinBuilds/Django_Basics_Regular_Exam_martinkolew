@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Събития | LocalStage{% endblock %}
+
+{% block content %}
+<h1>Събития</h1>
+
+{% if events %}
+    <ul class="list-group">
+        {% for event in events %}
+            <li class="list-group-item">
+                <strong>{{ event.title }}</strong>
+                — {{ event.start_datetime|date:"d.m.Y H:i" }}
+                @ {{ event.venue }}
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p class="text-muted">Няма добавени събития.</p>
+{% endif %}
+{% endblock %}

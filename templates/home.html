@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Начало | LocalStage{% endblock %}
+
+{% block content %}
+<h1>LocalStage</h1>
+<p>Каталог на локални концерти и събития.</p>
+
+<h2 class="mt-4">Последни събития</h2>
+{% if latest_events %}
+    <ul class="list-group">
+        {% for event in latest_events %}
+            <li class="list-group-item">
+                <strong>{{ event.title }}</strong>
+                — {{ event.start_datetime|date:"d.m.Y H:i" }}
+                @ {{ event.venue }}
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p class="text-muted">Все още няма събития. Първо добави място и изпълнител, после събитие.</p>
+{% endif %}
+{% endblock %}

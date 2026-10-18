@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Изпълнители | LocalStage{% endblock %}
+
+{% block content %}
+<h1>Изпълнители</h1>
+
+{% if performers %}
+    <ul class="list-group">
+        {% for performer in performers %}
+            <li class="list-group-item">
+                <strong>{{ performer.name }}</strong> — {{ performer.country }}
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p class="text-muted">Няма добавени изпълнители.</p>
+{% endif %}
+{% endblock %}

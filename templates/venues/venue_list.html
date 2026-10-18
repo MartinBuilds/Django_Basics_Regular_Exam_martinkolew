@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Места | LocalStage{% endblock %}
+
+{% block content %}
+<h1>Места</h1>
+
+{% if venues %}
+    <ul class="list-group">
+        {% for venue in venues %}
+            <li class="list-group-item">
+                <strong>{{ venue.name }}</strong> — {{ venue.city }}
+                (капацитет: {{ venue.capacity }})
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p class="text-muted">Няма добавени места.</p>
+{% endif %}
+{% endblock %}
