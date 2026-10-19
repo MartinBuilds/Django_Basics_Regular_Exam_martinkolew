@@ -3,14 +3,22 @@
 {% block title %}Места | LocalStage{% endblock %}
 
 {% block content %}
-<h1>Места</h1>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="mb-0">Места</h1>
+    <a href="{% url 'venue-create' %}" class="btn btn-primary">Добави място</a>
+</div>
 
 {% if venues %}
     <ul class="list-group">
         {% for venue in venues %}
-            <li class="list-group-item">
-                <strong>{{ venue.name }}</strong> — {{ venue.city }}
-                (капацитет: {{ venue.capacity }})
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    <a href="{% url 'venue-details' venue.pk %}">
+                        <strong>{{ venue.name }}</strong>
+                    </a>
+                    — {{ venue.city }}
+                    (капацитет: {{ venue.capacity }})
+                </div>
             </li>
         {% endfor %}
     </ul>

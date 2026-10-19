@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ venue.name }} | LocalStage{% endblock %}
+
+{% block content %}
+<h1>{{ venue.name }}</h1>
+<p class="text-muted">{{ venue.city }} · капацитет {{ venue.capacity }}</p>
+
+{% if venue.description %}
+    <p>{{ venue.description }}</p>
+{% else %}
+    <p class="text-muted">Няма описание.</p>
+{% endif %}
+
+<a href="{% url 'venue-list' %}" class="btn btn-outline-secondary">Назад към местата</a>
+{% endblock %}
