@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ performer.name }} | LocalStage{% endblock %}
+
+{% block content %}
+<h1>{{ performer.name }}</h1>
+<p class="text-muted">{{ performer.country }}</p>
+
+{% if performer.bio %}
+    <p>{{ performer.bio }}</p>
+{% else %}
+    <p class="text-muted">Няма биография.</p>
+{% endif %}
+
+<a href="{% url 'performer-edit' performer.pk %}" class="btn btn-primary">Редактирай</a>
+<a href="{% url 'performer-list' %}" class="btn btn-outline-secondary">Назад към изпълнителите</a>
+{% endblock %}

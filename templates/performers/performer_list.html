@@ -3,13 +3,19 @@
 {% block title %}Изпълнители | LocalStage{% endblock %}
 
 {% block content %}
-<h1>Изпълнители</h1>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="mb-0">Изпълнители</h1>
+    <a href="{% url 'performer-create' %}" class="btn btn-primary">Добави изпълнител</a>
+</div>
 
 {% if performers %}
     <ul class="list-group">
         {% for performer in performers %}
             <li class="list-group-item">
-                <strong>{{ performer.name }}</strong> — {{ performer.country }}
+                <a href="{% url 'performer-details' performer.pk %}">
+                    <strong>{{ performer.name }}</strong>
+                </a>
+                — {{ performer.country }}
             </li>
         {% endfor %}
     </ul>
