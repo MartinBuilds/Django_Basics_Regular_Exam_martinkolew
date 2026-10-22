@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Изтрий събитие | LocalStage{% endblock %}
+
+{% block content %}
+<h1>Изтрий събитие</h1>
+
+<p class="mt-3">
+    Сигурен ли си, че искаш да изтриеш
+    <strong>{{ event.title }}</strong>?
+</p>
+<p class="text-muted">
+    {{ event.start_datetime|date:"d.m.Y H:i" }} @ {{ event.venue }}
+</p>
+
+<form method="post" class="mt-3">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Изтрий</button>
+    <a href="{% url 'event-details' event.pk %}" class="btn btn-outline-secondary">Отказ</a>
+</form>
+{% endblock %}

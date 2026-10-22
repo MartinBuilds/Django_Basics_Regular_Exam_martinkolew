@@ -8,6 +8,20 @@
     <a href="{% url 'event-create' %}" class="btn btn-primary">Добави събитие</a>
 </div>
 
+<form method="get" class="row g-2 mb-4">
+    <div class="col-md-6">
+        <label for="{{ filter_form.q.id_for_label }}" class="form-label">{{ filter_form.q.label }}</label>
+        {{ filter_form.q }}
+    </div>
+    <div class="col-md-4">
+        <label for="{{ filter_form.sort.id_for_label }}" class="form-label">{{ filter_form.sort.label }}</label>
+        {{ filter_form.sort }}
+    </div>
+    <div class="col-md-2 d-flex align-items-end">
+        <button type="submit" class="btn btn-outline-primary w-100">Филтрирай</button>
+    </div>
+</form>
+
 {% if events %}
     <ul class="list-group">
         {% for event in events %}

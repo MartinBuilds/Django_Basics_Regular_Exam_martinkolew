@@ -124,3 +124,32 @@ class EventForm(forms.ModelForm):
             self.add_error('performers', 'Моля, избери поне един изпълнител.')
 
         return cleaned_data
+
+
+class EventFilterForm(forms.Form):
+    q = forms.CharField(
+        required=False,
+        label='Търсене',
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Търси по заглавие...',
+            }
+        ),
+    )
+    sort = forms.ChoiceField(
+        required=False,
+        label='Сортиране',
+        choices=(
+            ('', 'По подразбиране'),
+            ('date_asc', 'Най-ранни първо'),
+            ('date_desc', 'Най-късни първо'),
+            ('title', 'Заглавие А-Я'),
+            ('title_desc', 'Заглавие Я-А'),
+        ),
+        widget=forms.Select(
+            attrs={
+                'class': 'form-select',
+            }
+        ),
+    )

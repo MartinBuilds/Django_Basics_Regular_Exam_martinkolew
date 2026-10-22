@@ -3,8 +3,16 @@ from django.shortcuts import get_object_or_404, redirect, render
 from performers.models import Performer
 from venues.models import Venue
 
-from .forms import EventForm
+from .forms import EventFilterForm, EventForm
 from .models import Event
+
+
+SORT_OPTIONS = {
+    'date_asc': 'start_datetime',
+    'date_desc': '-start_datetime',
+    'title': 'title',
+    'title_desc': '-title',
+}
 
 
 def home(request):
@@ -21,8 +29,21 @@ def about(request):
 
 def event_list(request):
     events = Event.objects.all()
+    filter_form = EventFilterForm(request.GET or None)
+
+    if filter_form.is_valid():
+        q = filter_form.cleaned_data.get('q')
+        sort = filter_form.cleaned_data.get('sort')
+
+        if q:
+            events = events.filter(title__icontains=q)
+
+        if sort in SORT_OPTIONS:
+            events = events.order_by(SORT_OPTIONS[sort])
+
     context = {
         'events': events,
+        'filter_form': filter_form,
     }
     return render(request, 'events/event_list.html', context)
 
@@ -65,3 +86,16 @@ def event_edit(request, pk):
         'has_performers': Performer.objects.exists(),
     }
     return render(request, 'events/event_form.html', context)
+
+
+def event_delete(request, pk):
+    event = get_object_or_404(Event, pk=pk)
+
+    if request.method == 'POST':
+        event.delete()
+        return redirect('event-list')
+
+    context = {
+        'event': event,
+    }
+    return render(request, 'events/event_delete.html', context)
