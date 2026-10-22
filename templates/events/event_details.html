@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ event.title }} | LocalStage{% endblock %}
+
+{% block content %}
+<h1>{{ event.title }}</h1>
+<p class="text-muted">
+    {{ event.start_datetime|date:"d.m.Y H:i" }}
+    —
+    {{ event.end_datetime|date:"d.m.Y H:i" }}
+</p>
+<p>
+    <strong>Място:</strong>
+    <a href="{% url 'venue-details' event.venue.pk %}">{{ event.venue }}</a>
+    ({{ event.venue.city }})
+</p>
+<p>
+    <strong>Цена:</strong>
+    {% if event.ticket_price == 0 %}
+        Безплатно
+    {% else %}
+        {{ event.ticket_price }} лв.
+    {% endif %}
+</p>
+
+<p>{{ event.description }}</p>
+
+<h2 class="h5 mt-4">Изпълнители</h2>
+<ul>
+    {% for performer in event.performers.all %}
+        <li>
+            <a href="{% url 'performer-details' performer.pk %}">{{ performer.name }}</a>
+        </li>
+    {% empty %}
+        <li class="text-muted">Няма изпълнители.</li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'event-edit' event.pk %}" class="btn btn-primary">Редактирай</a>
+<a href="{% url 'event-list' %}" class="btn btn-outline-secondary">Назад към събитията</a>
+{% endblock %}
