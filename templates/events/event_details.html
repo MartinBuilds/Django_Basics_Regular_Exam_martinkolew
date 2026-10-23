@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load events_extras %}
 
 {% block title %}{{ event.title }} | LocalStage{% endblock %}
 
@@ -16,14 +17,10 @@
 </p>
 <p>
     <strong>Цена:</strong>
-    {% if event.ticket_price == 0 %}
-        Безплатно
-    {% else %}
-        {{ event.ticket_price }} лв.
-    {% endif %}
+    {{ event.ticket_price|price_label }}
 </p>
 
-<p>{{ event.description }}</p>
+<p>{{ event.description|truncatewords:40|default:"Няма описание." }}</p>
 
 <h2 class="h5 mt-4">Изпълнители</h2>
 <ul>

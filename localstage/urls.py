@@ -7,3 +7,5 @@ urlpatterns = [
     path('venues/', include('venues.urls')),
     path('performers/', include('performers.urls')),
 ]
+
+handler404 = 'events.views.page_not_found'

@@ -1,0 +1,7 @@
+<li class="list-group-item">
+    <a href="{% url 'event-details' event.pk %}">
+        <strong>{{ event.title }}</strong>
+    </a>
+    — {{ event.start_datetime|date:"d.m.Y H:i" }}
+    @ {{ event.venue }}
+</li>

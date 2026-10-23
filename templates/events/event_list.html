@@ -25,13 +25,7 @@
 {% if events %}
     <ul class="list-group">
         {% for event in events %}
-            <li class="list-group-item">
-                <a href="{% url 'event-details' event.pk %}">
-                    <strong>{{ event.title }}</strong>
-                </a>
-                — {{ event.start_datetime|date:"d.m.Y H:i" }}
-                @ {{ event.venue }}
-            </li>
+            {% include 'partials/event_item.html' %}
         {% endfor %}
     </ul>
 {% else %}

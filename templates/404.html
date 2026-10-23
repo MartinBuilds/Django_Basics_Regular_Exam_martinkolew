@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block title %}Страницата не е намерена | LocalStage{% endblock %}
+
+{% block content %}
+<h1>404</h1>
+<p>Страницата, която търсиш, не съществува.</p>
+<a href="{% url 'home' %}" class="btn btn-primary">Към началото</a>
+{% endblock %}
