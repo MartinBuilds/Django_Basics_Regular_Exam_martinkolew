@@ -7,4 +7,5 @@ urlpatterns = [
     path('create/', views.performer_create, name='performer-create'),
     path('<int:pk>/', views.performer_details, name='performer-details'),
     path('<int:pk>/edit/', views.performer_edit, name='performer-edit'),
+    path('<int:pk>/delete/', views.performer_delete, name='performer-delete'),
 ]

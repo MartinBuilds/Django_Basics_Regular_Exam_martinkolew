@@ -90,6 +90,10 @@ def event_edit(request, pk):
 
 def event_delete(request, pk):
     event = get_object_or_404(Event, pk=pk)
+    form = EventForm(instance=event)
+
+    for field in form.fields.values():
+        field.disabled = True
 
     if request.method == 'POST':
         event.delete()
@@ -97,5 +101,6 @@ def event_delete(request, pk):
 
     context = {
         'event': event,
+        'form': form,
     }
     return render(request, 'events/event_delete.html', context)

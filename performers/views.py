@@ -46,3 +46,16 @@ def performer_edit(request, pk):
         'performer': performer,
     }
     return render(request, 'performers/performer_form.html', context)
+
+
+def performer_delete(request, pk):
+    performer = get_object_or_404(Performer, pk=pk)
+
+    if request.method == 'POST':
+        performer.delete()
+        return redirect('performer-list')
+
+    context = {
+        'performer': performer,
+    }
+    return render(request, 'performers/performer_delete.html', context)
