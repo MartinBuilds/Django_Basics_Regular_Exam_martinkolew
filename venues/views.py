@@ -1,3 +1,4 @@
+from django.db.models import Count
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import VenueForm
@@ -5,7 +6,7 @@ from .models import Venue
 
 
 def venue_list(request):
-    venues = Venue.objects.all()
+    venues = Venue.objects.annotate(events_count=Count('events'))
     context = {
         'venues': venues,
     }
@@ -13,9 +14,14 @@ def venue_list(request):
 
 
 def venue_details(request, pk):
-    venue = get_object_or_404(Venue, pk=pk)
+    venue = get_object_or_404(
+        Venue.objects.annotate(events_count=Count('events')),
+        pk=pk,
+    )
+    events = venue.events.all()
     context = {
         'venue': venue,
+        'events': events,
     }
     return render(request, 'venues/venue_details.html', context)
 

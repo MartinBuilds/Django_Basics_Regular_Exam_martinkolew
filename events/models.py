@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
 
 from performers.models import Performer
 from venues.models import Venue
@@ -29,3 +30,7 @@ class Event(models.Model):
 
     def get_absolute_url(self):
         return reverse('event-details', kwargs={'pk': self.pk})
+
+    @property
+    def is_upcoming(self):
+        return self.start_datetime >= timezone.now()

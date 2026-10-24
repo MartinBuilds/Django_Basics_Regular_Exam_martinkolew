@@ -19,6 +19,9 @@
                     — {{ venue.city }}
                     (капацитет: {{ venue.capacity }})
                 </div>
+                <span class="badge text-bg-secondary">
+                    {{ venue.events_count }} събития
+                </span>
             </li>
         {% endfor %}
     </ul>

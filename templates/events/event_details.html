@@ -5,11 +5,17 @@
 
 {% block content %}
 <h1>{{ event.title }}</h1>
+{% if event.is_upcoming %}
+    <p><span class="badge text-bg-success">Предстоящо</span></p>
+{% else %}
+    <p><span class="badge text-bg-secondary">Минило</span></p>
+{% endif %}
 <p class="text-muted">
     {{ event.start_datetime|date:"d.m.Y H:i" }}
     —
     {{ event.end_datetime|date:"d.m.Y H:i" }}
 </p>
+
 <p>
     <strong>Място:</strong>
     <a href="{% url 'venue-details' event.venue.pk %}">{{ event.venue }}</a>

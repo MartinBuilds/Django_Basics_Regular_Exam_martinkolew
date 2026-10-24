@@ -4,12 +4,26 @@
 
 {% block content %}
 <h1>{{ venue.name }}</h1>
-<p class="text-muted">{{ venue.city }} · капацитет {{ venue.capacity }}</p>
+<p class="text-muted">
+    {{ venue.city }} · капацитет {{ venue.capacity }}
+    · {{ venue.events_count }} събития
+</p>
 
 {% if venue.description %}
     <p>{{ venue.description }}</p>
 {% else %}
     <p class="text-muted">Няма описание.</p>
+{% endif %}
+
+<h2 class="h5 mt-4">Събития на това място</h2>
+{% if events %}
+    <ul class="list-group mb-3">
+        {% for event in events %}
+            {% include 'partials/event_item.html' %}
+        {% endfor %}
+    </ul>
+{% else %}
+    <p class="text-muted">Все още няма събития за това място.</p>
 {% endif %}
 
 <a href="{% url 'venue-list' %}" class="btn btn-outline-secondary">Назад към местата</a>
