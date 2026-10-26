@@ -3,7 +3,9 @@
 {% block title %}Страницата не е намерена | LocalStage{% endblock %}
 
 {% block content %}
-<h1>404</h1>
-<p>Страницата, която търсите, не съществува.</p>
-<a href="{% url 'home' %}" class="btn btn-primary">Към началото</a>
+<div class="content-card col-lg-6 mx-auto text-center">
+    <h1>404</h1>
+    <p class="text-muted">Страницата, която търсите, не съществува.</p>
+    <a href="{% url 'home' %}" class="btn btn-primary">Към началото</a>
+</div>
 {% endblock %}

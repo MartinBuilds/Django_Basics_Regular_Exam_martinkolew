@@ -3,17 +3,29 @@
 {% block title %}Начало | LocalStage{% endblock %}
 
 {% block content %}
-<h1>LocalStage</h1>
-<p>Каталог на локални концерти и събития.</p>
+<section class="page-hero">
+    <h1 class="mb-2">LocalStage</h1>
+    <p>Каталог на локални концерти и събития. Добавяйте изпълнители, зали и предстоящи събития.</p>
+</section>
 
-<h2 class="mt-4">Последни събития</h2>
-{% if latest_events %}
-    <ul class="list-group">
-        {% for event in latest_events %}
-            {% include 'partials/event_item.html' %}
-        {% endfor %}
-    </ul>
-{% else %}
-    <p class="text-muted">Все още няма събития. Първо добавете място и изпълнител, после събитие.</p>
-{% endif %}
+<section class="content-card">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="section-title">Последни събития</h2>
+        <a href="{% url 'event-list' %}" class="btn btn-sm btn-primary">Всички събития</a>
+    </div>
+
+    {% if latest_events %}
+        <div class="list-panel">
+            <ul class="list-group list-group-flush">
+                {% for event in latest_events %}
+                    {% include 'partials/event_item.html' %}
+                {% endfor %}
+            </ul>
+        </div>
+    {% else %}
+        <p class="text-muted mb-0">
+            Все още няма събития. Първо добавете изпълнител и зала, после събитие.
+        </p>
+    {% endif %}
+</section>
 {% endblock %}

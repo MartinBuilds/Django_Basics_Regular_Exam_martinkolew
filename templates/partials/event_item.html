@@ -6,9 +6,11 @@
         — {{ event.start_datetime|date:"d.m.Y H:i" }}
         @ {{ event.venue }}
     </div>
-    {% if event.is_upcoming %}
-        <span class="badge text-bg-success">Предстоящо</span>
+    {% if event.status == 'upcoming' %}
+        <span class="badge text-bg-success">{{ event.status_label }}</span>
+    {% elif event.status == 'ongoing' %}
+        <span class="badge text-bg-warning text-dark">{{ event.status_label }}</span>
     {% else %}
-        <span class="badge text-bg-secondary">Минило</span>
+        <span class="badge text-bg-secondary">{{ event.status_label }}</span>
     {% endif %}
 </li>
