@@ -14,6 +14,16 @@ python manage.py runserver
 
 Open http://127.0.0.1:8000/
 
+## Create data (empty database)
+
+Use the UI in this order:
+
+1. Add a performer (`Изпълнители` → `Добавете изпълнител`)
+2. Add a hall (`Зали` → `Добавете зала`)
+3. Add an event (`Събития` → `Добавете събитие`)
+
+Ticket prices are in euro (€), from 0 to 1000.
+
 ## Environment variables
 
 | Variable | Default | Description |
