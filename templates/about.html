@@ -12,12 +12,12 @@
     <h1 class="mb-2">За проекта</h1>
     <p>
         LocalStage е малко Django приложение за каталог на локални концерти.
-        Идеята е проста: събираш изпълнители, зали и събития на едно място.
+        Идеята е проста: събирате изпълнители, зали и събития на едно място.
     </p>
 </section>
 
 <section class="content-card mb-4 about-decor">
-    <h2 class="h4 mb-3">Какво можеш да правиш</h2>
+    <h2 class="h4 mb-3">Какво можете да правите</h2>
     <p class="text-muted mb-4">
         Проектът е без регистрация и вход. Всичко се управлява през формите в сайта.
     </p>
@@ -27,7 +27,7 @@
             <div class="about-feature about-feature-1 h-100">
                 <h3 class="h5">Изпълнители</h3>
                 <p class="text-muted">
-                    Добавяш артисти и групи, редактираш ги и ги изтриваш при нужда.
+                    Добавяте артисти и групи, редактирате ги и ги изтривате при нужда.
                 </p>
                 <a href="{% url 'performer-list' %}" class="btn btn-sm btn-about-solid">Към изпълнителите</a>
             </div>
@@ -36,7 +36,7 @@
             <div class="about-feature about-feature-2 h-100">
                 <h3 class="h5">Събития</h3>
                 <p class="text-muted">
-                    Създаваш концерти с дата, цена в евро, зала и изпълнители.
+                    Създавате концерти с дата, цена в евро, зала и изпълнители.
                     Има търсене, сортиране и изтриване с потвърждение.
                 </p>
                 <a href="{% url 'event-list' %}" class="btn btn-sm btn-about-solid">Към събитията</a>
@@ -56,11 +56,11 @@
 </section>
 
 <section class="content-card mb-4 about-start">
-    <h2 class="h4 mb-3">Откъде да започнеш</h2>
+    <h2 class="h4 mb-3">Откъде да започнете</h2>
     <ol class="mb-0">
-        <li class="mb-2">Добави поне един <a href="{% url 'performer-create' %}">изпълнител</a>.</li>
-        <li class="mb-2">Добави поне една <a href="{% url 'venue-create' %}">зала</a>.</li>
-        <li class="mb-2">Създай <a href="{% url 'event-create' %}">събитие</a> и свържи залата с изпълнителите.</li>
+        <li class="mb-2">Добавете поне един <a href="{% url 'performer-create' %}">изпълнител</a>.</li>
+        <li class="mb-2">Добавете поне една <a href="{% url 'venue-create' %}">зала</a>.</li>
+        <li class="mb-2">Създайте <a href="{% url 'event-create' %}">събитие</a> и свържете залата с изпълнителите.</li>
     </ol>
 </section>
 
@@ -71,6 +71,6 @@
         Направено с Django, SQLite и Bootstrap. Използвам форми, валидации,
         template inheritance и връзки между моделите (ForeignKey и ManyToMany).
     </p>
-    <a href="{% url 'event-create' %}" class="btn btn-about-solid">Добави събитие</a>
+    <a href="{% url 'event-create' %}" class="btn btn-about-solid">Добавете събитие</a>
 </section>
 {% endblock %}

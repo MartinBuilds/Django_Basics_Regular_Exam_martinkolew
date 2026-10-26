@@ -1,21 +1,21 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    {% if event %}Редактирай събитие{% else %}Добави събитие{% endif %} | LocalStage
+    {% if event %}Редактирайте събитие{% else %}Добавете събитие{% endif %} | LocalStage
 {% endblock %}
 
 {% block content %}
 <h1>
-    {% if event %}Редактирай събитие{% else %}Добави събитие{% endif %}
+    {% if event %}Редактирайте събитие{% else %}Добавете събитие{% endif %}
 </h1>
 
 {% if not has_venues or not has_performers %}
     <div class="alert alert-warning mt-3">
         {% if not has_venues %}
-            <p class="mb-1">Няма добавени места. <a href="{% url 'venue-create' %}">Добави място</a></p>
+            <p class="mb-1">Няма добавени места. <a href="{% url 'venue-create' %}">Добавете място</a></p>
         {% endif %}
         {% if not has_performers %}
-            <p class="mb-0">Няма добавени изпълнители. <a href="{% url 'performer-create' %}">Добави изпълнител</a></p>
+            <p class="mb-0">Няма добавени изпълнители. <a href="{% url 'performer-create' %}">Добавете изпълнител</a></p>
         {% endif %}
     </div>
 {% endif %}
@@ -45,7 +45,7 @@
     {% endfor %}
 
     <button type="submit" class="btn btn-primary" {% if not has_venues or not has_performers %}disabled{% endif %}>
-        Запази
+        Запазете
     </button>
     {% if event %}
         <a href="{% url 'event-details' event.pk %}" class="btn btn-outline-secondary">Отказ</a>

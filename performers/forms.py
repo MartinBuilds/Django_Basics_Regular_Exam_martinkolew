@@ -17,10 +17,10 @@ class PerformerForm(forms.ModelForm):
         }
         error_messages = {
             'name': {
-                'required': 'Моля, въведи име на изпълнителя.',
+                'required': 'Моля, въведете име на изпълнителя.',
             },
             'country': {
-                'required': 'Моля, въведи държава.',
+                'required': 'Моля, въведете държава.',
             },
         }
         widgets = {

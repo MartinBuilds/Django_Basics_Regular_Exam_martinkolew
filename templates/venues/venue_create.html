@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 
-{% block title %}Добави място | LocalStage{% endblock %}
+{% block title %}Добавете място | LocalStage{% endblock %}
 
 {% block content %}
-<h1>Добави място</h1>
+<h1>Добавете място</h1>
 
 <form method="post" class="mt-3" novalidate>
     {% csrf_token %}
@@ -21,7 +21,7 @@
         </div>
     {% endfor %}
 
-    <button type="submit" class="btn btn-primary">Запази</button>
+    <button type="submit" class="btn btn-primary">Запазете</button>
     <a href="{% url 'venue-list' %}" class="btn btn-outline-secondary">Отказ</a>
 </form>
 {% endblock %}

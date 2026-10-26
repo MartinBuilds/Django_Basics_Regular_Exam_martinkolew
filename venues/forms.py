@@ -19,13 +19,13 @@ class VenueForm(forms.ModelForm):
         }
         error_messages = {
             'name': {
-                'required': 'Моля, въведи име на мястото.',
+                'required': 'Моля, въведете име на мястото.',
             },
             'city': {
-                'required': 'Моля, въведи град.',
+                'required': 'Моля, въведете град.',
             },
             'capacity': {
-                'required': 'Моля, въведи капацитет.',
+                'required': 'Моля, въведете капацитет.',
                 'invalid': 'Капацитетът трябва да е число.',
             },
         }

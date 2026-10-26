@@ -25,34 +25,34 @@ class EventForm(forms.ModelForm):
             'performers': 'Изпълнители',
         }
         help_texts = {
-            'ticket_price': 'В лева. За безплатно събитие въведи 0.',
-            'performers': 'Избери поне един изпълнител.',
-            'venue': 'Ако списъкът е празен, първо добави място.',
+            'ticket_price': 'В лева. За безплатно събитие въведете 0.',
+            'performers': 'Изберете поне един изпълнител.',
+            'venue': 'Ако списъкът е празен, първо добавете място.',
         }
         error_messages = {
             'title': {
-                'required': 'Моля, въведи заглавие.',
+                'required': 'Моля, въведете заглавие.',
             },
             'description': {
-                'required': 'Моля, въведи описание.',
+                'required': 'Моля, въведете описание.',
             },
             'start_datetime': {
-                'required': 'Моля, въведи начална дата и час.',
+                'required': 'Моля, въведете начална дата и час.',
                 'invalid': 'Невалидна дата и час.',
             },
             'end_datetime': {
-                'required': 'Моля, въведи крайна дата и час.',
+                'required': 'Моля, въведете крайна дата и час.',
                 'invalid': 'Невалидна дата и час.',
             },
             'ticket_price': {
-                'required': 'Моля, въведи цена.',
+                'required': 'Моля, въведете цена.',
                 'invalid': 'Цената трябва да е число.',
             },
             'venue': {
-                'required': 'Моля, избери място.',
+                'required': 'Моля, изберете място.',
             },
             'performers': {
-                'required': 'Моля, избери поне един изпълнител.',
+                'required': 'Моля, изберете поне един изпълнител.',
             },
         }
         widgets = {
@@ -121,7 +121,7 @@ class EventForm(forms.ModelForm):
             )
 
         if performers is not None and not performers.exists():
-            self.add_error('performers', 'Моля, избери поне един изпълнител.')
+            self.add_error('performers', 'Моля, изберете поне един изпълнител.')
 
         return cleaned_data
 

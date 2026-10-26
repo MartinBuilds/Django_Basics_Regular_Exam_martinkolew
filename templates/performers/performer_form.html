@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    {% if performer %}Редактирай изпълнител{% else %}Добави изпълнител{% endif %} | LocalStage
+    {% if performer %}Редактирайте изпълнител{% else %}Добавете изпълнител{% endif %} | LocalStage
 {% endblock %}
 
 {% block content %}
 <h1>
-    {% if performer %}Редактирай изпълнител{% else %}Добави изпълнител{% endif %}
+    {% if performer %}Редактирайте изпълнител{% else %}Добавете изпълнител{% endif %}
 </h1>
 
 <form method="post" class="mt-3" novalidate>
@@ -25,7 +25,7 @@
         </div>
     {% endfor %}
 
-    <button type="submit" class="btn btn-primary">Запази</button>
+    <button type="submit" class="btn btn-primary">Запазете</button>
     {% if performer %}
         <a href="{% url 'performer-details' performer.pk %}" class="btn btn-outline-secondary">Отказ</a>
     {% else %}
