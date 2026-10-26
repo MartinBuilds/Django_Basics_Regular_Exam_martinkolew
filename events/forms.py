@@ -219,21 +219,19 @@ class EventFilterForm(forms.Form):
             }
         ),
     )
+    SORT_CHOICES = (
+        ('', 'По подразбиране'),
+        ('date_asc', 'Най-ранни първо'),
+        ('date_desc', 'Най-късни първо'),
+        ('title', 'Заглавие А-Я'),
+        ('title_desc', 'Заглавие Я-А'),
+    )
+
     sort = forms.ChoiceField(
         required=False,
         label='Сортиране',
-        choices=(
-            ('', 'По подразбиране'),
-            ('date_asc', 'Най-ранни първо'),
-            ('date_desc', 'Най-късни първо'),
-            ('title', 'Заглавие А-Я'),
-            ('title_desc', 'Заглавие Я-А'),
-        ),
-        widget=forms.Select(
-            attrs={
-                'class': 'form-select',
-            }
-        ),
+        choices=SORT_CHOICES,
+        widget=forms.HiddenInput(),
     )
 
     def clean_q(self):

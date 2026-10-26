@@ -3,29 +3,38 @@
 {% block title %}Зали | LocalStage{% endblock %}
 
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h1 class="mb-0">Зали</h1>
-    <a href="{% url 'venue-create' %}" class="btn btn-primary">Добавете зала</a>
+<div class="d-flex justify-content-between align-items-center gap-3 mb-4">
+    <div>
+        <h1 class="mb-2">Зали</h1>
+        <p class="text-muted mb-0">
+            Тук са концертните зали с град и капацитет. Добавете зала, за да можете да създавате събития.
+        </p>
+    </div>
+    <a href="{% url 'venue-create' %}" class="btn btn-primary flex-shrink-0">Добавете зала</a>
 </div>
 
 {% if venues %}
-    <ul class="list-group">
-        {% for venue in venues %}
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <div>
-                    <a href="{% url 'venue-details' venue.pk %}">
-                        <strong>{{ venue.name }}</strong>
-                    </a>
-                    — {{ venue.city }}
-                    (капацитет: {{ venue.capacity }})
-                </div>
-                <span class="badge text-bg-secondary">
-                    {{ venue.events_count }} събития
-                </span>
-            </li>
-        {% endfor %}
-    </ul>
+    <div class="list-panel">
+        <ul class="list-group list-group-flush">
+            {% for venue in venues %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <a href="{% url 'venue-details' venue.pk %}">
+                            <strong>{{ venue.name }}</strong>
+                        </a>
+                        — {{ venue.city }}
+                        (капацитет: {{ venue.capacity }})
+                    </div>
+                    <span class="badge text-bg-secondary">
+                        {{ venue.events_count }} събития
+                    </span>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
 {% else %}
-    <p class="text-muted">Няма добавени зали.</p>
+    <div class="content-card">
+        <p class="text-muted mb-0">Няма добавени зали.</p>
+    </div>
 {% endif %}
 {% endblock %}
