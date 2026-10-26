@@ -21,13 +21,13 @@ class EventForm(forms.ModelForm):
             'start_datetime': 'Начало',
             'end_datetime': 'Край',
             'ticket_price': 'Цена на билет',
-            'venue': 'Място',
+            'venue': 'Зала',
             'performers': 'Изпълнители',
         }
         help_texts = {
             'ticket_price': 'В лева. За безплатно събитие въведете 0.',
             'performers': 'Изберете поне един изпълнител.',
-            'venue': 'Ако списъкът е празен, първо добавете място.',
+            'venue': 'Ако списъкът е празен, първо добавете зала.',
         }
         error_messages = {
             'title': {
@@ -49,7 +49,7 @@ class EventForm(forms.ModelForm):
                 'invalid': 'Цената трябва да е число.',
             },
             'venue': {
-                'required': 'Моля, изберете място.',
+                'required': 'Моля, изберете зала.',
             },
             'performers': {
                 'required': 'Моля, изберете поне един изпълнител.',

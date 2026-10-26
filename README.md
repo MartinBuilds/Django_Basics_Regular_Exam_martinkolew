@@ -34,6 +34,6 @@ Open a missing URL, for example http://127.0.0.1:8000/missing-page/
 
 ## Apps
 
-- `venues` — places where events happen
+- `venues` — concert halls where events happen
 - `events` — concerts / events
 - `performers` — artists and bands

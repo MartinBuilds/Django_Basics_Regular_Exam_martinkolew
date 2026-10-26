@@ -19,7 +19,7 @@ class VenueForm(forms.ModelForm):
         }
         error_messages = {
             'name': {
-                'required': 'Моля, въведете име на мястото.',
+                'required': 'Моля, въведете име на залата.',
             },
             'city': {
                 'required': 'Моля, въведете град.',
@@ -52,7 +52,7 @@ class VenueForm(forms.ModelForm):
                 attrs={
                     'class': 'form-control',
                     'rows': 4,
-                    'placeholder': 'Кратко описание на мястото...',
+                    'placeholder': 'Кратко описание на залата...',
                 }
             ),
         }

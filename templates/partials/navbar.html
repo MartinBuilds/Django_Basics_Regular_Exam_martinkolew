@@ -11,13 +11,13 @@
                     <a class="nav-link {% active_link 'home' %}" href="{% url 'home' %}">Начало</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link {% active_link 'performer-list' 'performer-details' 'performer-create' 'performer-edit' 'performer-delete' %}" href="{% url 'performer-list' %}">Изпълнители</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link {% active_link 'event-list' 'event-details' 'event-create' 'event-edit' 'event-delete' %}" href="{% url 'event-list' %}">Събития</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {% active_link 'venue-list' 'venue-details' 'venue-create' %}" href="{% url 'venue-list' %}">Места</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {% active_link 'performer-list' 'performer-details' 'performer-create' 'performer-edit' 'performer-delete' %}" href="{% url 'performer-list' %}">Изпълнители</a>
+                    <a class="nav-link {% active_link 'venue-list' 'venue-details' 'venue-create' 'venue-delete' %}" href="{% url 'venue-list' %}">Зали</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {% active_link 'about' %}" href="{% url 'about' %}">За проекта</a>
