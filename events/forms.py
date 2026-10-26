@@ -41,6 +41,7 @@ class EventForm(forms.ModelForm):
                 'required': 'Моля, въведете описание.',
                 'max_length': 'Описанието не може да е над 1000 символа.',
             },
+
             'start_datetime': {
                 'required': 'Моля, въведете начална дата и час.',
                 'invalid': 'Невалидна дата и час.',
@@ -58,6 +59,7 @@ class EventForm(forms.ModelForm):
             'venue': {
                 'required': 'Моля, изберете зала.',
             },
+
             'performers': {
                 'required': 'Моля, изберете поне един изпълнител.',
             },
@@ -77,18 +79,21 @@ class EventForm(forms.ModelForm):
                     'maxlength': '1000',
                 }
             ),
+
             'start_datetime': forms.DateTimeInput(
-                format='%Y-%m-%dT%H:%M',
+                format='%d.%m.%Y %H:%M',
                 attrs={
-                    'class': 'form-control',
-                    'type': 'datetime-local',
+                    'class': 'form-control js-datetime',
+                    'placeholder': 'дд.мм.гггг чч:мм',
+                    'autocomplete': 'off',
                 }
             ),
             'end_datetime': forms.DateTimeInput(
-                format='%Y-%m-%dT%H:%M',
+                format='%d.%m.%Y %H:%M',
                 attrs={
-                    'class': 'form-control',
-                    'type': 'datetime-local',
+                    'class': 'form-control js-datetime',
+                    'placeholder': 'дд.мм.гггг чч:мм',
+                    'autocomplete': 'off',
                 }
             ),
             'ticket_price': forms.NumberInput(
@@ -100,6 +105,7 @@ class EventForm(forms.ModelForm):
                     'max': '1000',
                 }
             ),
+
             'venue': forms.Select(
                 attrs={
                     'class': 'form-select',
@@ -115,10 +121,14 @@ class EventForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['start_datetime'].input_formats = [
+            '%d.%m.%Y %H:%M',
+            '%d.%m.%Y %H:%M:%S',
             '%Y-%m-%dT%H:%M',
             '%Y-%m-%d %H:%M:%S',
         ]
         self.fields['end_datetime'].input_formats = [
+            '%d.%m.%Y %H:%M',
+            '%d.%m.%Y %H:%M:%S',
             '%Y-%m-%dT%H:%M',
             '%Y-%m-%d %H:%M:%S',
         ]
@@ -138,6 +148,7 @@ class EventForm(forms.ModelForm):
             )
 
     def clean_title(self):
+
         title = self.cleaned_data.get('title', '').strip()
         if len(title) < 3:
             raise forms.ValidationError('Заглавието трябва да е поне 3 символа.')
@@ -150,6 +161,7 @@ class EventForm(forms.ModelForm):
         return description
 
     def clean_ticket_price(self):
+
         ticket_price = self.cleaned_data.get('ticket_price')
         if ticket_price is None:
             return ticket_price

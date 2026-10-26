@@ -4,53 +4,135 @@
     {% if event %}Редактирайте събитие{% else %}Добавете събитие{% endif %} | LocalStage
 {% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<style>
+    .flatpickr-calendar {
+        border-radius: 0.75rem;
+        box-shadow: 0 10px 30px rgba(20, 33, 43, 0.18);
+        border: 1px solid #c9d6e3;
+    }
+    .flatpickr-day.selected,
+    .flatpickr-day.startRange,
+    .flatpickr-day.endRange,
+    .flatpickr-day.selected:hover {
+        background: #0f766e;
+        border-color: #0f766e;
+    }
+    .flatpickr-time input:hover,
+    .flatpickr-time .flatpickr-am-pm:hover,
+    .flatpickr-months .flatpickr-prev-month:hover svg,
+    .flatpickr-months .flatpickr-next-month:hover svg {
+        fill: #0f766e;
+        color: #0f766e;
+    }
+    .flatpickr-current-month .flatpickr-monthDropdown-months:hover,
+    .numInputWrapper:hover {
+        background: rgba(15, 118, 110, 0.08);
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<h1>
-    {% if event %}Редактирайте събитие{% else %}Добавете събитие{% endif %}
-</h1>
+<div class="content-card col-lg-8 mx-auto">
+    <h1 class="h3 mb-4">
+        {% if event %}Редактирайте събитие{% else %}Добавете събитие{% endif %}
+    </h1>
 
-{% if not has_venues or not has_performers %}
-    <div class="alert alert-warning mt-3">
-        {% if not has_venues %}
-            <p class="mb-1">Няма добавени места. <a href="{% url 'venue-create' %}">Добавете място</a></p>
-        {% endif %}
-        {% if not has_performers %}
-            <p class="mb-0">Няма добавени изпълнители. <a href="{% url 'performer-create' %}">Добавете изпълнител</a></p>
-        {% endif %}
-    </div>
-{% endif %}
-
-{% if form.non_field_errors %}
-    <div class="alert alert-danger mt-3">
-        {% for error in form.non_field_errors %}
-            <p class="mb-0">{{ error }}</p>
-        {% endfor %}
-    </div>
-{% endif %}
-
-<form method="post" class="mt-3" novalidate>
-    {% csrf_token %}
-
-    {% for field in form %}
-        <div class="mb-3">
-            <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
-            {{ field }}
-            {% if field.help_text %}
-                <div class="form-text">{{ field.help_text }}</div>
+    {% if not has_venues or not has_performers %}
+        <div class="alert alert-warning">
+            {% if not has_venues %}
+                <p class="mb-1">Няма добавени зали. <a href="{% url 'venue-create' %}">Добавете зала</a></p>
             {% endif %}
-            {% for error in field.errors %}
-                <div class="text-danger">{{ error }}</div>
+            {% if not has_performers %}
+                <p class="mb-0">Няма добавени изпълнители. <a href="{% url 'performer-create' %}">Добавете изпълнител</a></p>
+            {% endif %}
+        </div>
+    {% endif %}
+
+    {% if form.non_field_errors %}
+        <div class="alert alert-danger">
+            {% for error in form.non_field_errors %}
+                <p class="mb-0">{{ error }}</p>
             {% endfor %}
         </div>
-    {% endfor %}
-
-    <button type="submit" class="btn btn-primary" {% if not has_venues or not has_performers %}disabled{% endif %}>
-        Запазете
-    </button>
-    {% if event %}
-        <a href="{% url 'event-details' event.pk %}" class="btn btn-outline-secondary">Отказ</a>
-    {% else %}
-        <a href="{% url 'event-list' %}" class="btn btn-outline-secondary">Отказ</a>
     {% endif %}
-</form>
+
+    <form method="post" novalidate>
+        {% csrf_token %}
+
+        {% for field in form %}
+            <div class="mb-3">
+                <label class="form-label">{{ field.label }}</label>
+                {% if field.name == 'performers' %}
+                    <div class="border rounded p-3 bg-light">
+                        {% for checkbox in field %}
+                            <div class="form-check">
+                                {{ checkbox.tag }}
+                                <label class="form-check-label" for="{{ checkbox.id_for_label }}">
+                                    {{ checkbox.choice_label }}
+                                </label>
+                            </div>
+                        {% empty %}
+                            <p class="text-muted mb-0">Няма налични изпълнители.</p>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ field }}
+                {% endif %}
+                {% if field.help_text %}
+                    <div class="form-text">{{ field.help_text }}</div>
+                {% endif %}
+                {% for error in field.errors %}
+                    <div class="text-danger">{{ error }}</div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+
+        <button type="submit" class="btn btn-primary" {% if not has_venues or not has_performers %}disabled{% endif %}>
+            Запазете
+        </button>
+        {% if event %}
+            <a href="{% url 'event-details' event.pk %}" class="btn btn-outline-secondary">Отказ</a>
+        {% else %}
+            <a href="{% url 'event-list' %}" class="btn btn-outline-secondary">Отказ</a>
+        {% endif %}
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/bg.js"></script>
+<script>
+    (function () {
+        if (!window.flatpickr) {
+            return;
+        }
+        flatpickr.localize(flatpickr.l10ns.bg);
+        var shared = {
+            enableTime: true,
+            time_24hr: true,
+            dateFormat: 'd.m.Y H:i',
+            allowInput: true,
+            minuteIncrement: 1,
+            locale: 'bg',
+        };
+        var isEdit = {{ event.pk|default:'null' }};
+        var startPicker = flatpickr('#id_start_datetime', Object.assign({}, shared, {
+            minDate: isEdit ? null : 'today',
+        }));
+        var endPicker = flatpickr('#id_end_datetime', Object.assign({}, shared, {
+            minDate: isEdit ? null : 'today',
+        }));
+        startPicker.config.onChange.push(function (selectedDates) {
+            if (selectedDates[0]) {
+                endPicker.set('minDate', selectedDates[0]);
+            }
+        });
+        if (startPicker.selectedDates[0]) {
+            endPicker.set('minDate', startPicker.selectedDates[0]);
+        }
+    })();
+</script>
 {% endblock %}
