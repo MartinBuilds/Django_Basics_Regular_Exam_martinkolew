@@ -20,21 +20,26 @@ class EventForm(forms.ModelForm):
             'description': 'Описание',
             'start_datetime': 'Начало',
             'end_datetime': 'Край',
-            'ticket_price': 'Цена на билет',
+            'ticket_price': 'Цена на билет (€)',
             'venue': 'Зала',
             'performers': 'Изпълнители',
         }
         help_texts = {
-            'ticket_price': 'В лева. За безплатно събитие въведете 0.',
+            'title': 'Поне 3 символа.',
+            'description': 'Максимум 1000 символа.',
+            'ticket_price': 'От 0 до 1000 €. За безплатно събитие въведете 0.',
             'performers': 'Изберете поне един изпълнител.',
             'venue': 'Ако списъкът е празен, първо добавете зала.',
         }
         error_messages = {
             'title': {
                 'required': 'Моля, въведете заглавие.',
+                'min_length': 'Заглавието трябва да е поне 3 символа.',
+                'max_length': 'Заглавието е твърде дълго.',
             },
             'description': {
                 'required': 'Моля, въведете описание.',
+                'max_length': 'Описанието не може да е над 1000 символа.',
             },
             'start_datetime': {
                 'required': 'Моля, въведете начална дата и час.',
@@ -47,6 +52,8 @@ class EventForm(forms.ModelForm):
             'ticket_price': {
                 'required': 'Моля, въведете цена.',
                 'invalid': 'Цената трябва да е число.',
+                'min_value': 'Цената не може да е отрицателна.',
+                'max_value': 'Цената не може да е над 1000 €.',
             },
             'venue': {
                 'required': 'Моля, изберете зала.',
@@ -67,6 +74,7 @@ class EventForm(forms.ModelForm):
                     'class': 'form-control',
                     'rows': 4,
                     'placeholder': 'Кратко описание на събитието...',
+                    'maxlength': '1000',
                 }
             ),
             'start_datetime': forms.DateTimeInput(
@@ -88,6 +96,8 @@ class EventForm(forms.ModelForm):
                     'class': 'form-control',
                     'placeholder': 'Напр. 25.00',
                     'step': '0.01',
+                    'min': '0',
+                    'max': '1000',
                 }
             ),
             'venue': forms.Select(
@@ -95,19 +105,81 @@ class EventForm(forms.ModelForm):
                     'class': 'form-select',
                 }
             ),
-            'performers': forms.CheckboxSelectMultiple(),
+            'performers': forms.CheckboxSelectMultiple(
+                attrs={
+                    'class': 'form-check-input',
+                }
+            ),
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['start_datetime'].input_formats = ['%Y-%m-%dT%H:%M', '%Y-%m-%d %H:%M:%S']
-        self.fields['end_datetime'].input_formats = ['%Y-%m-%dT%H:%M', '%Y-%m-%d %H:%M:%S']
+        self.fields['start_datetime'].input_formats = [
+            '%Y-%m-%dT%H:%M',
+            '%Y-%m-%d %H:%M:%S',
+        ]
+        self.fields['end_datetime'].input_formats = [
+            '%Y-%m-%dT%H:%M',
+            '%Y-%m-%d %H:%M:%S',
+        ]
+        self.fields['venue'].empty_label = 'Изберете зала'
+
+        if self.instance.pk:
+            self.fields['status_display'] = forms.CharField(
+                label='Статус',
+                initial=self.instance.status_label,
+                required=False,
+                disabled=True,
+                widget=forms.TextInput(
+                    attrs={
+                        'class': 'form-control',
+                    }
+                ),
+            )
+
+    def clean_title(self):
+        title = self.cleaned_data.get('title', '').strip()
+        if len(title) < 3:
+            raise forms.ValidationError('Заглавието трябва да е поне 3 символа.')
+        return title
+
+    def clean_description(self):
+        description = self.cleaned_data.get('description', '').strip()
+        if len(description) > 1000:
+            raise forms.ValidationError('Описанието не може да е над 1000 символа.')
+        return description
 
     def clean_ticket_price(self):
         ticket_price = self.cleaned_data.get('ticket_price')
-        if ticket_price is not None and ticket_price < 0:
+        if ticket_price is None:
+            return ticket_price
+        if ticket_price < 0:
             raise forms.ValidationError('Цената не може да е отрицателна.')
+        if ticket_price > 1000:
+            raise forms.ValidationError('Цената не може да е над 1000 €.')
         return ticket_price
+
+    def clean_start_datetime(self):
+        from django.utils import timezone
+
+        start_datetime = self.cleaned_data.get('start_datetime')
+        if start_datetime is None:
+            return start_datetime
+
+        today = timezone.localdate()
+        if not self.instance.pk and start_datetime.date() < today:
+            raise forms.ValidationError(
+                'Началната дата не може да е преди днес.'
+            )
+        if (
+            self.instance.pk
+            and start_datetime.date() < today
+            and start_datetime.date() != self.instance.start_datetime.date()
+        ):
+            raise forms.ValidationError(
+                'Началната дата не може да е преди днес.'
+            )
+        return start_datetime
 
     def clean(self):
         cleaned_data = super().clean()
@@ -116,9 +188,18 @@ class EventForm(forms.ModelForm):
         performers = cleaned_data.get('performers')
 
         if start_datetime and end_datetime and end_datetime < start_datetime:
-            raise forms.ValidationError(
-                'Крайната дата трябва да е след или равна на началната.'
+            self.add_error(
+                'end_datetime',
+                'Крайната дата трябва да е след или равна на началната.',
             )
+
+        if start_datetime and end_datetime:
+            duration = end_datetime - start_datetime
+            if duration.days > 14:
+                self.add_error(
+                    'end_datetime',
+                    'Събитието не може да продължава повече от 14 дни.',
+                )
 
         if performers is not None and not performers.exists():
             self.add_error('performers', 'Моля, изберете поне един изпълнител.')
@@ -130,6 +211,7 @@ class EventFilterForm(forms.Form):
     q = forms.CharField(
         required=False,
         label='Търсене',
+        max_length=100,
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
@@ -153,3 +235,6 @@ class EventFilterForm(forms.Form):
             }
         ),
     )
+
+    def clean_q(self):
+        return self.cleaned_data.get('q', '').strip()

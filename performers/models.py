@@ -1,10 +1,14 @@
+from django.core.validators import MinLengthValidator
 from django.db import models
 from django.urls import reverse
 
 
 class Performer(models.Model):
-    name = models.CharField(max_length=100)
-    country = models.CharField(max_length=50)
+    name = models.CharField(
+        max_length=100,
+        validators=[MinLengthValidator(2)],
+    )
+    country = models.CharField(max_length=80)
     bio = models.TextField(blank=True)
 
     class Meta:

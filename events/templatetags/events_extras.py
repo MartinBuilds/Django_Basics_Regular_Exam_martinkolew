@@ -13,7 +13,7 @@ def price_label(value):
     if price == 0:
         return 'Безплатно'
 
-    return f'{price:.2f} лв.'
+    return f'{price:.2f} €'
 
 
 @register.simple_tag(takes_context=True)
