@@ -49,13 +49,14 @@ def performer_edit(request, pk):
 
 
 def performer_delete(request, pk):
-    performer = get_object_or_404(Performer, pk=pk)
+    performer = Performer.objects.filter(pk=pk).first()
 
     if request.method == 'POST':
-        performer.delete()
+        if performer is not None:
+            performer.delete()
         return redirect('performer-list')
 
-    context = {
-        'performer': performer,
-    }
-    return render(request, 'performers/performer_delete.html', context)
+    if performer is None:
+        return redirect('performer-list')
+
+    return redirect(performer.get_absolute_url())

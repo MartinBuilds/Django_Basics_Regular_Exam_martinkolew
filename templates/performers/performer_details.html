@@ -3,16 +3,46 @@
 {% block title %}{{ performer.name }} | LocalStage{% endblock %}
 
 {% block content %}
-<h1>{{ performer.name }}</h1>
-<p class="text-muted">{{ performer.country }}</p>
+<div class="content-card detail-hero mb-4">
+    <h1>{{ performer.name }}</h1>
+    <p class="text-muted">{{ performer.country }}</p>
 
-{% if performer.bio %}
-    <p>{{ performer.bio }}</p>
-{% else %}
-    <p class="text-muted">Няма биография.</p>
-{% endif %}
+    {% if performer.bio %}
+        <p class="mb-0">{{ performer.bio }}</p>
+    {% else %}
+        <p class="text-muted mb-0">Няма биография.</p>
+    {% endif %}
+</div>
 
-<a href="{% url 'performer-edit' performer.pk %}" class="btn btn-primary">Редактирайте</a>
-<a href="{% url 'performer-delete' performer.pk %}" class="btn btn-danger">Изтрийте</a>
-<a href="{% url 'performer-list' %}" class="btn btn-outline-secondary">Назад към изпълнителите</a>
+<div class="detail-actions mb-4">
+    <a href="{% url 'performer-list' %}" class="back-link">← Назад към изпълнителите</a>
+    <div class="detail-actions-right">
+        <a href="{% url 'performer-edit' performer.pk %}" class="btn btn-primary">Редактирайте</a>
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deletePerformerModal">
+            Изтрийте
+        </button>
+    </div>
+</div>
+
+<div class="modal fade" id="deletePerformerModal" tabindex="-1" aria-labelledby="deletePerformerModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deletePerformerModalLabel">Изтрийте изпълнител</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Сигурни ли сте, че искате да изтриете
+                <strong>{{ performer.name }}</strong>?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Отказ</button>
+                <form method="post" action="{% url 'performer-delete' performer.pk %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Изтрийте</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

@@ -3,28 +3,67 @@
 {% block title %}{{ venue.name }} | LocalStage{% endblock %}
 
 {% block content %}
-<h1>{{ venue.name }}</h1>
-<p class="text-muted">
-    {{ venue.city }} · капацитет {{ venue.capacity }}
-    · {{ venue.events_count }} събития
-</p>
+<div class="content-card detail-hero mb-4">
+    <h1>{{ venue.name }}</h1>
+    <p class="text-muted">
+        {{ venue.city }} · капацитет {{ venue.capacity }}
+        · {{ venue.events_count }} събития
+    </p>
 
-{% if venue.description %}
-    <p>{{ venue.description }}</p>
-{% else %}
-    <p class="text-muted">Няма описание.</p>
-{% endif %}
+    {% if venue.description %}
+        <p class="mb-0">{{ venue.description }}</p>
+    {% else %}
+        <p class="text-muted mb-0">Няма описание.</p>
+    {% endif %}
+</div>
 
-<h2 class="h5 mt-4">Събития на това зала</h2>
-{% if events %}
-    <ul class="list-group mb-3">
-        {% for event in events %}
-            {% include 'partials/event_item.html' %}
-        {% endfor %}
-    </ul>
-{% else %}
-    <p class="text-muted">Все още няма събития за това зала.</p>
-{% endif %}
+<div class="content-card mb-4">
+    <h2 class="h5 mb-3">Събития в тази зала</h2>
+    {% if events %}
+        <div class="list-panel">
+            <ul class="list-group list-group-flush">
+                {% for event in events %}
+                    {% include 'partials/event_item.html' %}
+                {% endfor %}
+            </ul>
+        </div>
+    {% else %}
+        <p class="text-muted mb-0">Все още няма събития в тази зала.</p>
+    {% endif %}
+</div>
 
-<a href="{% url 'venue-list' %}" class="btn btn-outline-secondary">Назад към залите</a>
+<div class="detail-actions mb-4">
+    <a href="{% url 'venue-list' %}" class="back-link">← Назад към залите</a>
+    <div class="detail-actions-right">
+        <a href="{% url 'venue-edit' venue.pk %}" class="btn btn-primary">Редактирайте</a>
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteVenueModal">
+            Изтрийте
+        </button>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteVenueModal" tabindex="-1" aria-labelledby="deleteVenueModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteVenueModalLabel">Изтрийте зала</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Сигурни ли сте, че искате да изтриете
+                <strong>{{ venue.name }}</strong>?
+                {% if venue.events_count %}
+                    <br><span class="text-danger">Ще се изтрият и {{ venue.events_count }} свързани събития.</span>
+                {% endif %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Отказ</button>
+                <form method="post" action="{% url 'venue-delete' venue.pk %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Изтрийте</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

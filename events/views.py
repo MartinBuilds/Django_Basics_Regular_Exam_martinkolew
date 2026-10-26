@@ -94,18 +94,14 @@ def event_edit(request, pk):
 
 
 def event_delete(request, pk):
-    event = get_object_or_404(Event, pk=pk)
-    form = EventForm(instance=event)
-
-    for field in form.fields.values():
-        field.disabled = True
+    event = Event.objects.filter(pk=pk).first()
 
     if request.method == 'POST':
-        event.delete()
+        if event is not None:
+            event.delete()
         return redirect('event-list')
 
-    context = {
-        'event': event,
-        'form': form,
-    }
-    return render(request, 'events/event_delete.html', context)
+    if event is None:
+        return redirect('event-list')
+
+    return redirect(event.get_absolute_url())

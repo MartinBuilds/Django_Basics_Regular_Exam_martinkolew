@@ -4,42 +4,78 @@
 {% block title %}{{ event.title }} | LocalStage{% endblock %}
 
 {% block content %}
-<h1>{{ event.title }}</h1>
-{% if event.is_upcoming %}
-    <p><span class="badge text-bg-success">Предстоящо</span></p>
-{% else %}
-    <p><span class="badge text-bg-secondary">Минило</span></p>
-{% endif %}
-<p class="text-muted">
-    {{ event.start_datetime|date:"d.m.Y H:i" }}
-    —
-    {{ event.end_datetime|date:"d.m.Y H:i" }}
-</p>
+<div class="content-card detail-hero mb-4">
+    <div class="d-flex justify-content-between align-items-start gap-3">
+        <h1 class="mb-2">{{ event.title }}</h1>
+        {% if event.status == 'upcoming' %}
+            <span class="badge text-bg-success">{{ event.status_label }}</span>
+        {% elif event.status == 'ongoing' %}
+            <span class="badge text-bg-warning text-dark">{{ event.status_label }}</span>
+        {% else %}
+            <span class="badge text-bg-secondary">{{ event.status_label }}</span>
+        {% endif %}
+    </div>
 
-<p>
-    <strong>Място:</strong>
-    <a href="{% url 'venue-details' event.venue.pk %}">{{ event.venue }}</a>
-    ({{ event.venue.city }})
-</p>
-<p>
-    <strong>Цена:</strong>
-    {{ event.ticket_price|price_label }}
-</p>
+    <p class="text-muted">
+        {{ event.start_datetime|date:"d.m.Y H:i" }}
+        —
+        {{ event.end_datetime|date:"d.m.Y H:i" }}
+    </p>
+    <p>
+        <strong>Зала:</strong>
+        <a href="{% url 'venue-details' event.venue.pk %}">{{ event.venue }}</a>
+        ({{ event.venue.city }})
+    </p>
+    <p>
+        <strong>Цена:</strong>
+        {{ event.ticket_price|price_label }}
+    </p>
 
-<p>{{ event.description|truncatewords:40|default:"Няма описание." }}</p>
+    <p class="mb-0">{{ event.description|truncatewords:40|default:"Няма описание." }}</p>
+</div>
 
-<h2 class="h5 mt-4">Изпълнители</h2>
-<ul>
-    {% for performer in event.performers.all %}
-        <li>
-            <a href="{% url 'performer-details' performer.pk %}">{{ performer.name }}</a>
-        </li>
-    {% empty %}
-        <li class="text-muted">Няма изпълнители.</li>
-    {% endfor %}
-</ul>
+<div class="content-card mb-4">
+    <h2 class="h5 mb-3">Изпълнители</h2>
+    <ul class="mb-0">
+        {% for performer in event.performers.all %}
+            <li>
+                <a class="content-link" href="{% url 'performer-details' performer.pk %}">{{ performer.name }}</a>
+            </li>
+        {% empty %}
+            <li class="text-muted">Няма изпълнители.</li>
+        {% endfor %}
+    </ul>
+</div>
 
-<a href="{% url 'event-edit' event.pk %}" class="btn btn-primary">Редактирайте</a>
-<a href="{% url 'event-delete' event.pk %}" class="btn btn-danger">Изтрийте</a>
-<a href="{% url 'event-list' %}" class="btn btn-outline-secondary">Назад към събитията</a>
+<div class="detail-actions mb-4">
+    <a href="{% url 'event-list' %}" class="back-link">← Назад към събитията</a>
+    <div class="detail-actions-right">
+        <a href="{% url 'event-edit' event.pk %}" class="btn btn-primary">Редактирайте</a>
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteEventModal">
+            Изтрийте
+        </button>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteEventModal" tabindex="-1" aria-labelledby="deleteEventModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteEventModalLabel">Изтрийте събитие</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Сигурни ли сте, че искате да изтриете
+                <strong>{{ event.title }}</strong>?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Отказ</button>
+                <form method="post" action="{% url 'event-delete' event.pk %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Изтрийте</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

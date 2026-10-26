@@ -37,3 +37,32 @@ def venue_create(request):
         'form': form,
     }
     return render(request, 'venues/venue_create.html', context)
+
+
+def venue_edit(request, pk):
+    venue = get_object_or_404(Venue, pk=pk)
+    form = VenueForm(request.POST or None, instance=venue)
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            return redirect(venue.get_absolute_url())
+
+    context = {
+        'form': form,
+        'venue': venue,
+    }
+    return render(request, 'venues/venue_create.html', context)
+
+
+def venue_delete(request, pk):
+    venue = Venue.objects.filter(pk=pk).first()
+
+    if request.method == 'POST':
+        if venue is not None:
+            venue.delete()
+        return redirect('venue-list')
+
+    if venue is None:
+        return redirect('venue-list')
+
+    return redirect(venue.get_absolute_url())
