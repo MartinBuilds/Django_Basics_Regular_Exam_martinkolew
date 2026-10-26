@@ -1,11 +1,76 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}За проекта | LocalStage{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/about.css' %}">
+{% endblock %}
+
 {% block content %}
-<h1>За проекта</h1>
-<p>
-    LocalStage е уеб приложение за каталог на локални концерти и събития.
-    Можеш да разглеждаш места, изпълнители и предстоящи събития.
-</p>
+<section class="page-hero">
+    <h1 class="mb-2">За проекта</h1>
+    <p>
+        LocalStage е малко Django приложение за каталог на локални концерти.
+        Идеята е проста: събираш изпълнители, зали и събития на едно място.
+    </p>
+</section>
+
+<section class="content-card mb-4 about-decor">
+    <h2 class="h4 mb-3">Какво можеш да правиш</h2>
+    <p class="text-muted mb-4">
+        Проектът е без регистрация и вход. Всичко се управлява през формите в сайта.
+    </p>
+
+    <div class="row g-3">
+        <div class="col-md-4">
+            <div class="about-feature about-feature-1 h-100">
+                <h3 class="h5">Изпълнители</h3>
+                <p class="text-muted">
+                    Добавяш артисти и групи, редактираш ги и ги изтриваш при нужда.
+                </p>
+                <a href="{% url 'performer-list' %}" class="btn btn-sm btn-about-solid">Към изпълнителите</a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="about-feature about-feature-2 h-100">
+                <h3 class="h5">Събития</h3>
+                <p class="text-muted">
+                    Създаваш концерти с дата, цена в евро, зала и изпълнители.
+                    Има търсене, сортиране и изтриване с потвърждение.
+                </p>
+                <a href="{% url 'event-list' %}" class="btn btn-sm btn-about-solid">Към събитията</a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="about-feature about-feature-3 h-100">
+                <h3 class="h5">Зали</h3>
+                <p class="text-muted">
+                    Концертни зали с град и капацитет. На детайлната страница
+                    се виждат и събитията за залата.
+                </p>
+                <a href="{% url 'venue-list' %}" class="btn btn-sm btn-about-solid">Към залите</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="content-card mb-4 about-start">
+    <h2 class="h4 mb-3">Откъде да започнеш</h2>
+    <ol class="mb-0">
+        <li class="mb-2">Добави поне един <a href="{% url 'performer-create' %}">изпълнител</a>.</li>
+        <li class="mb-2">Добави поне една <a href="{% url 'venue-create' %}">зала</a>.</li>
+        <li class="mb-2">Създай <a href="{% url 'event-create' %}">събитие</a> и свържи залата с изпълнителите.</li>
+    </ol>
+</section>
+
+<section class="content-card about-decor">
+    <a href="{% url 'home' %}" class="about-nav-link">← Към началото</a>
+    <h2 class="mb-3">Технологии</h2>
+    <p class="mb-3">
+        Направено с Django, SQLite и Bootstrap. Използвам форми, валидации,
+        template inheritance и връзки между моделите (ForeignKey и ManyToMany).
+    </p>
+    <a href="{% url 'event-create' %}" class="btn btn-about-solid">Добави събитие</a>
+</section>
 {% endblock %}
