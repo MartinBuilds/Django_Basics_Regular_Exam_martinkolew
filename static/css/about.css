@@ -27,45 +27,23 @@
     margin-bottom: 1.25rem;
 }
 
-.btn-sm.btn-about-solid {
-    font-size: 0.9rem !important;
-    padding: 0.4rem 0.85rem !important;
-}
-
 .about-nav-link {
     display: inline-block;
     margin-bottom: 0.5rem;
-    color: #15803d;
+    color: #0f766e;
     font-size: 0.85rem;
     font-weight: 600;
     text-decoration: none;
 }
 
 .about-nav-link:hover {
-    color: #16a34a;
+    color: #0f3d3a;
     text-decoration: underline;
 }
 
 .about-decor h2 {
     font-size: 1.75rem;
     font-weight: 700;
-}
-
-.btn-about-solid {
-    background-color: #56797a !important;
-    border: 1px solid #4a6869 !important;
-    color: #fff !important;
-    font-size: 0.95rem !important;
-    padding: 0.45rem 0.95rem !important;
-    transition: background-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.btn-about-solid:hover,
-.btn-about-solid:focus {
-    background-color: #4a6869 !important;
-    border-color: #3f5859 !important;
-    color: #fff !important;
-    box-shadow: 0 0 0 0.15rem rgba(86, 121, 122, 0.35);
 }
 
 .about-start {

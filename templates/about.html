@@ -29,7 +29,7 @@
                 <p class="text-muted">
                     Добавяте артисти и групи, редактирате ги и ги изтривате при нужда.
                 </p>
-                <a href="{% url 'performer-list' %}" class="btn btn-sm btn-about-solid">Към изпълнителите</a>
+                <a href="{% url 'performer-list' %}" class="btn btn-sm btn-primary">Към изпълнителите</a>
             </div>
         </div>
         <div class="col-md-4">
@@ -39,7 +39,7 @@
                     Създавате концерти с дата, цена в евро, зала и изпълнители.
                     Има търсене, сортиране и изтриване с потвърждение.
                 </p>
-                <a href="{% url 'event-list' %}" class="btn btn-sm btn-about-solid">Към събитията</a>
+                <a href="{% url 'event-list' %}" class="btn btn-sm btn-primary">Към събитията</a>
             </div>
         </div>
         <div class="col-md-4">
@@ -49,7 +49,7 @@
                     Концертни зали с град и капацитет. На детайлната страница
                     се виждат и събитията за залата.
                 </p>
-                <a href="{% url 'venue-list' %}" class="btn btn-sm btn-about-solid">Към залите</a>
+                <a href="{% url 'venue-list' %}" class="btn btn-sm btn-primary">Към залите</a>
             </div>
         </div>
     </div>
@@ -71,6 +71,6 @@
         Направено с Django, SQLite и Bootstrap. Използвам форми, валидации,
         template inheritance и връзки между моделите (ForeignKey и ManyToMany).
     </p>
-    <a href="{% url 'event-create' %}" class="btn btn-about-solid">Добавете събитие</a>
+    <a href="{% url 'event-create' %}" class="btn btn-primary">Добавете събитие</a>
 </section>
 {% endblock %}
